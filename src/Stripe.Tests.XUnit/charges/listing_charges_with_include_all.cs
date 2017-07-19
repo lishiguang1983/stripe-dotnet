@@ -19,11 +19,5 @@ namespace Stripe.Tests.Xunit
         {
             fixture.Charges.Should().NotBeNull();
         }
-
-        [Fact]
-        public void list_has_total_count()
-        {
-            fixture.Charges.TotalCount.Should().BeGreaterThan(0);
-        }
     }
 }
