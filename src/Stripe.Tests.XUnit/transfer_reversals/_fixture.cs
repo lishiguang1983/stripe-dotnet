@@ -13,7 +13,7 @@ namespace Stripe.Tests.Xunit
         public StripeTransferReversal TransferReversal { get; }
         public StripeTransferReversal TransferReversalUpdated { get; }
         public StripeTransferReversal TransferReversalRetrieved { get; }
-        public List<StripeTransferReversal> TransferReversalList { get; }
+        public StripeList<StripeTransferReversal> TransferReversalList { get; }
 
         public transfer_reversals_fixture()
         {
@@ -22,13 +22,7 @@ namespace Stripe.Tests.Xunit
             {
                 Amount = 10000,
                 Currency = "usd",
-                SourceCard = new SourceCard
-                {
-                    Number = "4000000000000077",
-                    ExpirationMonth = 10,
-                    ExpirationYear = 2019,
-                    Cvc = "123"
-                }
+                SourceTokenOrExistingSourceId = "tok_bypassPending"
             });
 
             // create transfer to be reversed
@@ -60,7 +54,7 @@ namespace Stripe.Tests.Xunit
             TransferReversal = service.Create(Transfer.Id, TransferReversalCreateOptions);
             TransferReversalUpdated = service.Update(Transfer.Id, TransferReversal.Id, TransferReversalUpdateOptions);
             TransferReversalRetrieved = service.Get(Transfer.Id, TransferReversal.Id);
-            TransferReversalList = service.List(Transfer.Id, new StripeListOptions()).ToList();
+            TransferReversalList = service.List(Transfer.Id, new StripeListOptions());
 
             // get the original transfer
             Transfer = new StripeTransferService(Cache.ApiKey).Get(Transfer.Id);

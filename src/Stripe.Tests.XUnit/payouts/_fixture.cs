@@ -13,7 +13,7 @@ namespace Stripe.Tests.Xunit
         public StripePayout Payout { get; }
         public StripePayout PayoutUpdated { get; }
         public StripePayout PayoutRetrieved { get; }
-        public List<StripePayout> PayoutList { get; }
+        public StripeList<StripePayout> PayoutList { get; }
 
         public payouts_fixture()
         {
@@ -22,13 +22,7 @@ namespace Stripe.Tests.Xunit
             {
                 Amount = 2000,
                 Currency = "usd",
-                SourceCard = new SourceCard
-                {
-                    Number = "4000000000000077",
-                    ExpirationMonth = 10,
-                    ExpirationYear = 2019,
-                    Cvc = "123"
-                }
+                SourceTokenOrExistingSourceId = "tok_bypassPending"
             });
 
             PayoutCreateOptions = new StripePayoutCreateOptions
@@ -56,7 +50,7 @@ namespace Stripe.Tests.Xunit
                 ArrivalDate = new StripeDateFilter { EqualTo = Payout.ArrivalDate }
             };
 
-            PayoutList = service.List(PayoutListOptions).ToList();
+            PayoutList = service.List(PayoutListOptions);
         }
     }
 }
